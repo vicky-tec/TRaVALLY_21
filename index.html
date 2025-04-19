@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TRAVALLY - Your Yatra Partner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="TRAVALLY.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div id="preloader">
+        <div class="spinner"></div> <div class="warrior-quote">"Your Yatra begins with struggle..."</div>
+    </div>
+
+    <audio id="warriorSound" preload="auto">
+        <source src="flute.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="TRAVALLY.png" alt="Travally Logo"> <span>TRAVALLY</span> </a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                 <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="bot.html">YuktiBot</a></li>
+                <li><a href="COMING SOON.html">YatraMitra</a></li> <li><a href="finder.html">HumSafar</a></li> <li><a href="About us.html">About Us</a></li>
+                <li><a href="LOGINpage/loginpage.html">Profile <i class="fas fa-user-circle"></i></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="video-slideshow" id="videoSlideshow">
+            <video class="active" autoplay muted loop src="video1.mp4"></video>
+            <video src="video2.mp4" muted loop></video>
+            </div>
+        <div class="hero-content">
+            <h1>Welcome to Travally</h1> <p>Discover your next destination with our AI YuktiBot, find your perfect travel buddy with HumSafar, and plan your journey with YatraMitra!</p> <button class="cta-button" onclick="document.getElementById('features').scrollIntoView({ behavior: 'smooth' });">Start Exploring</button>
+        </div>
+    </header>
+
+    <main>
+        <section id="features" class="features-overview">
+            <div class="container">
+                <h2>Explore Our Features</h2>
+                <div class="feature-cards">
+                    <div class="feature-card">
+                        <i class="fas fa-robot fa-3x"></i>
+                        <h3>YuktiBot AI Guide</h3>
+                        <p>Get instant answers about places, culture, and travel tips from our intelligent AI assistant.</p>
+                        <a href="bot.html" class="btn">Ask YuktiBot</a>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-map-marked-alt fa-3x"></i>
+                        <h3>YatraMitra Planning</h3>
+                        <p>Plan your trips, find itineraries, and discover hidden gems. (Coming Soon!)</p>
+                        <a href="COMING SOON.html" class="btn disabled">Explore Plans</a>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-users fa-3x"></i>
+                        <h3>HumSafar Buddy Finder</h3>
+                        <p>Connect with fellow travelers who share your interests and travel style.</p>
+                        <a href="finder.html" class="btn">Find Buddies</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="guide" class="chat-section content-section">
+            <div class="container">
+                <h2>Chat with Yukti Bot</h2>
+                <p>Need quick info about a landmark, local etiquette, or the best time to visit? YuktiBot is here to help!</p>
+                <div class="chat-interface">
+                    <div class="chat-window" id="chatWindow">
+                        <div class="message bot">Hello! I'm YuktiBot, your AI Travel Guide. How can I assist you today?</div>
+                        </div>
+                    <div class="chat-input">
+                        <input type="text" id="userInput" placeholder="Ask YuktiBot something..." aria-label="Chat input"/>
+                        <button onclick="sendMessage()" aria-label="Send message"><i class="fas fa-paper-plane"></i> Send</button>
+                    </div>
+                </div>
+                 <a href="bot.html" class="btn full-chatbot-link">Open Full Chatbot</a>
+            </div>
+        </section>
+
+        <section id="buddy" class="buddy-finder content-section">
+             <div class="container">
+                <h2>Find Your HumSafar (Travel Buddy)</h2>
+                <p>Looking for someone to explore with? Find travelers based on interests and availability.</p>
+                <form id="buddySearch" class="buddy-search-form">
+                    <div class="form-group">
+                        <label for="interest">Interest:</label>
+                        <select id="interest" name="interest">
+                            <option value="Tour">City Tour</option>
+                            <option value="foodWalk">Food Walk</option>
+                            <option value="studyBuddy">Study Buddy</option>
+                            <option value="sports">Sports/Activities</option>
+                            <option value="adventure">Adventure Trek</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Preferred Time:</label>
+                        <input type="time" id="time" name="time" />
+                    </div>
+                    <button type="button" class="btn" onclick="window.location.href='finder.html'">Search Buddies</button>
+                </form>
+
+                <h3>Active Groups Nearby</h3>
+                <div class="buddy-list">
+                    <div class="buddy-card">
+                        <h4><i class="fas fa-camera-retro"></i> Photography Walk</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> Meeting Point: City Center Clock Tower</p>
+                        <p><i class="fas fa-clock"></i> Time: Tomorrow 10:00 AM</p>
+                        <p><i class="fas fa-users"></i> Participants: 2/6</p>
+                        <button class="btn-secondary" onclick="window.location.href='finder.html#group1'">View Details & Join</button>
+                    </div>
+                     <div class="buddy-card">
+                        <h4><i class="fas fa-utensils"></i> Evening Food Tour</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> Meeting Point: Old Market Entrance</p>
+                        <p><i class="fas fa-clock"></i> Time: Today 07:00 PM</p>
+                        <p><i class="fas fa-users"></i> Participants: 4/8</p>
+                         <button class="btn-secondary" onclick="window.location.href='finder.html#group2'">View Details & Join</button>
+                    </div>
+                    </div>
+                 <a href="finder.html" class="btn full-finder-link">See All Groups</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-about">
+                 <img src="TRAVALLY.png" alt="Travally Logo Small" class="footer-logo">
+                 <p>TRAVALLY - Connecting explorers, simplifying travel. Your adventure starts here.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="bot.html">YuktiBot</a></li>
+                    <li><a href="finder.html">HumSafar</a></li>
+                    <li><a href="About us.html">About Us</a></li>
+                    <li><a href="LOGINpage/loginpage.html">Profile</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-social">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://twitter.com" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                     <a href="https://youtube.com" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+             &copy; <span id="currentYear"></span> TRAVALLY | Designed with devotion ✨
+        </div>
+    </footer>
+
+    <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i> </button>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
