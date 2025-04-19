@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Travally Login</title>
+  <link rel="icon" href="https://vicky-tec.github.io/TRAVALLY/TRAVALLY.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+      position: relative;
+    }
+
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, #ff8c00, #ff0066, #6600cc, #3399ff);
+      background-size: 400% 400%;
+      animation: gradientAnimation 6s ease infinite;
+      z-index: 0;
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .login-container {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      width: 90%;
+      padding: 30px;
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00ffcc;
+      color: white;
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #fff;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    .input-field {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-field label {
+      font-size: 1rem;
+      color: #ddd;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .input-field input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background-color: #222;
+      color: #fff;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #03e9f4, #00ff0a);
+      color: #000;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(45deg, #00ff0a, #03e9f4);
+      box-shadow: 0 0 15px #03e9f4, 0 0 30px #03e9f4;
+    }
+
+    .social-login {
+      margin-top: 20px;
+    }
+
+    .social-login button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .social-login button i {
+      margin-right: 10px;
+    }
+
+    .google-btn { background: #db4437; }
+    .google-btn:hover { background: #c23321; }
+
+    .facebook-btn { background: #3b5998; }
+    .facebook-btn:hover { background: #2d4373; }
+
+    .github-btn { background: #333; }
+    .github-btn:hover { background: #24292e; }
+
+    .links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+
+    .links a {
+      color: #00ffff;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    #error-message {
+      color: #ff4d4d;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 15px;
+      width: 100%;
+      text-align: center;
+      color: #ccc;
+      font-size: 0.9rem;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="background"></div>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="input-field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required />
+      </div>
+      <div class="input-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+      <div class="input-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <div class="social-login">
+      <button class="google-btn"><i class="fab fa-google"></i> Sign in with Google</button>
+      <button class="facebook-btn"><i class="fab fa-facebook-f"></i> Continue with Facebook</button>
+      <button class="github-btn"><i class="fab fa-github"></i> Login with GitHub</button>
+    </div>
+
+    <div class="links">
+      <a href="#">Forgot Password?</a>
+      <a href="signup.html">Sign Up</a>
+    </div>
+    <p id="error-message"></p>
+  </div>
+
+  <footer>
+    &copy; 2025 TRAVALLY | Designed with devotion ✨
+  </footer>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const errorMessage = document.getElementById('error-message');
+
+      errorMessage.textContent = '';
+
+      if (!username || !email || !password) {
+        errorMessage.textContent = 'Please fill out all fields.';
+        return;
+      }
+
+      alert('Login successful!');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
