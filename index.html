@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRAVALLY</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Enhanced CSS Variables */
+    :root {
+      /* Color System */
+      --primary-color: #ff6600;
+      --primary-hover: #e55d00;
+      --gold-accent: #d4af37;
+      
+      /* Z-index Management */
+      --z-index-nav: 1000;
+      --z-index-chat: 100;
+      --z-index-theme-toggle: 1000;
+      --z-index-preloader: 9999;
+      
+      /* Default Light Theme */
+      --background-color: #ffffff;
+      --text-color: #333333;
+      --navbar-bg: #ffffff;
+      --navbar-link-color: #000000;
+      --hero-text-color: #fff;
+      --button-bg: var(--primary-color);
+      --button-text-color: #fff;
+      --card-bg: rgb(245, 245, 245);
+      --footer-bg: #333;
+      --footer-text-color: #fff;
+      --message-user-bg: #dcf8c6;
+      --message-bot-bg: #e0e0e0;
+      --input-border-color: #cccccc;
+      --section-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      --secondary-button-bg: #6c757d;
+      --secondary-button-text-color: #fff;
+    }
+
+    /* Dark Theme */
+    [data-theme="dark"] {
+      --background-color: #1e1e1e;
+      --text-color: #e0e0e0;
+      --navbar-bg: #2b2b2b;
+      --navbar-link-color: #e0e0e0;
+      --hero-text-color: #fff;
+      --button-bg: var(--primary-color);
+      --button-text-color: #fff;
+      --card-bg: #333333;
+      --footer-bg: #333;
+      --footer-text-color: #fff;
+      --message-user-bg: #555555;
+      --message-bot-bg: #444444;
+      --input-border-color: #555555;
+      --section-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      --secondary-button-bg: #5a6268;
+      --secondary-button-text-color: #fff;
+    }
+
+    /* Base Styles */
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, rgb(0, 255, 255), rgb(128, 0, 255), rgb(255, 105, 180));
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      scroll-behavior: smooth;
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .content-section {
+      padding: 4rem 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: var(--navbar-bg);
+      padding: 1rem 0;
+      color: var(--navbar-link-color);
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: var(--z-index-nav);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar .logo a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .navbar .logo img {
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--navbar-link-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li {
+      margin: 0;
+    }
+
+    .nav-links a {
+      color: var(--navbar-link-color);
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
+      text-shadow: 0 0 10px rgba(255, 102, 0, 0.9);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-color);
+      text-shadow: 0 0 20px var(--primary-color), 0 0 30px var(--primary-color);
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      color: var(--hero-text-color);
+      padding: 2rem 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .video-slideshow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .video-slideshow video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .video-slideshow video.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-family: "Protest Revolution", sans-serif;
+      font-size: 3.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Buttons */
+    .cta-button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border: none;
+      background: var(--button-bg);
+      color: var(--button-text-color);
+      cursor: pointer;
+      border-radius: 25px;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.7);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .cta-button:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.9);
+    }
+
+    .btn {
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      background: var(--button-bg);
+      color: var(--button-text-color);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease, opacity 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: var(--secondary-button-bg);
+      color: var(--secondary-button-text-color);
+    }
+
+    .btn-secondary:hover {
+      background: var(--secondary-button-bg);
+      opacity: 0.9;
+    }
+
+    /* Chat Section */
+    .chat-section {
+      background: var(--background-color);
+      border-radius: 8px;
+      box-shadow: var(--section-box-shadow);
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
+    .chat-interface {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--input-border-color);
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .chat-section h2 {
+      font-family: "Protest Revolution", sans-serif;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+    }
+
+    .chat-window {
+      flex-grow: 1;
+      height: 400px;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .message {
+      padding: 0.75rem 1rem;
+      border-radius: 15px;
+      max-width: 85%;
+      word-wrap: break-word;
+    }
+
+    .message.bot {
+      background: var(--message-bot-bg);
+      align-self: flex-start;
+    }
+
+    .message.user {
+      background: var(--message-user-bg);
+      align-self: flex-end;
+    }
+
+    .chat-input {
+      display: flex;
+      padding: 1rem;
+      border-top: 1px solid var(--input-border-color);
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid var(--input-border-color);
+      border-radius: 5px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    .chat-input button {
+      padding: 0.75rem 1.5rem;
+      background: var(--button-bg);
+      color: var(--button-text-color);
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .chat-input button:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Buddy Finder Section */
+    .buddy-finder {
+      background: var(--background-color);
+      border-radius: 8px;
+      box-shadow: var(--section-box-shadow);
+      max-width: 900px;
+      margin: 2rem auto;
+    }
+
+    .buddy-finder h2 {
+      font-family: "Protest Revolution", sans-serif;
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 2rem;
+      color: var(--text-color);
+    }
+
+    .buddy-search-form {
+      display: flex;
+      align-items: flex-end;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      justify-content: center;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .buddy-finder label {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: var(--text-color);
+    }
+
+    .buddy-search-form input[type="text"],
+    .buddy-search-form input[type="time"],
+    .buddy-search-form select {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid var(--input-border-color);
+      border-radius: 5px;
+      width: auto;
+      max-width: 200px;
+      background-color: var(--background-color);
+      color: var(--text-color);
+    }
+
+    /* Buddy List */
+    .buddy-finder h3 {
+      font-size: 1.5rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+      text-align: center;
+    }
+
+    .buddy-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .buddy-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border: 1px solid var(--input-border-color);
+      border-radius: 8px;
+      text-align: left;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .buddy-card h4 {
+      font-size: 1.2rem;
+      margin-top: 0;
+      margin-bottom: 0.8rem;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .buddy-card p {
+      margin-bottom: 0.8rem;
+      font-size: 1rem;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .buddy-card p i {
+      color: var(--primary-color);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--footer-bg);
+      color: var(--footer-text-color);
+      padding: 40px 0;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-top: 40px;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .footer-section {
+      flex: 1;
+      min-width: 220px;
+      margin: 20px;
+    }
+
+    .footer-section h3 {
+      color: var(--footer-text-color);
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 5px;
+    }
+
+    .footer-section.about p {
+      color: var(--footer-text-color);
+      opacity: 0.8;
+    }
+
+    .footer-section.links ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-section.links ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-section.links ul li a {
+      color: var(--footer-text-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      opacity: 0.8;
+    }
+
+    .footer-section.links ul li a:hover {
+      color: #fff;
+      opacity: 1;
+    }
+
+    .footer-section.contact p {
+      margin-bottom: 10px;
+      color: var(--footer-text-color);
+      opacity: 0.8;
+    }
+
+    .footer-section.contact i {
+      margin-right: 10px;
+      color: var(--footer-text-color);
+    }
+
+    .footer-section.social a {
+      display: inline-block;
+      margin-right: 15px;
+      font-size: 1.5rem;
+      color: var(--footer-text-color);
+      transition: color 0.3s ease;
+      opacity: 0.8;
+    }
+
+    .footer-section.social a:hover {
+      color: #007bff;
+      opacity: 1;
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 0.9rem;
+      color: var(--footer-text-color);
+      opacity: 0.8;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--button-bg);
+      color: var(--button-text-color);
+      padding: 0.75rem;
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.5s ease;
+      box-shadow: 0 0 10px rgba(255, 102, 0, 0.7);
+      z-index: var(--z-index-theme-toggle);
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 0 20px rgba(255, 102, 0, 0.9);
+    }
+
+    .theme-toggle.rotate {
+      transform: rotate(360deg);
+    }
+
+    /* Preloader */
+    #preloader {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: var(--z-index-preloader);
+      background-color: var(--background-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s ease;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader {
+      border: 10px solid var(--input-border-color);
+      border-top: 10px solid var(--gold-accent);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .warrior-quote {
+      font-family: 'Georgia', serif;
+      font-size: 1.3rem;
+      color: var(--gold-accent);
+      animation: blinkText 5s infinite;
+      position: absolute;
+      top: 55%;
+      text-align: center;
+      width: 100%;
+    }
+
+    @keyframes blinkText {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.8; }
+    }
+
+    /* Popup Chatbot Styles */
+    #popupChatbot {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 350px;
+      border-radius: 10px;
+      box-shadow: var(--section-box-shadow);
+      background: var(--background-color);
+      overflow: hidden;
+      z-index: var(--z-index-chat);
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    #popupChatbot.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    #popupHeader {
+      background: var(--primary-color);
+      color: white;
+      padding: 12px 15px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease;
+    }
+
+    #popupHeader:hover {
+      background: var(--primary-hover);
+    }
+
+    #popupHeader .close-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    #popupBody {
+      height: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #popupBody .chat-window {
+      flex-grow: 1;
+      height: auto;
+      max-height: 250px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    #popupBody .chat-input {
+      padding: 10px;
+      border-top: 1px solid var(--input-border-color);
+    }
+
+    #popupBody .chat-input input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--input-border-color);
+      border-radius: 20px;
+      margin-right: 5px;
+    }
+
+    #popupBody .chat-input button {
+      padding: 8px 12px;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Chatbot Animation */
+    @keyframes chatBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .chatbot-icon {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: var(--z-index-chat);
+      animation: chatBounce 2s infinite;
+      transition: all 0.3s ease;
+    }
+
+    .chatbot-icon:hover {
+      background: var(--primary-hover);
+      transform: scale(1.1);
+    }
+
+    /* Accessibility Improvements */
+    button:focus, input:focus, select:focus, a:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    /* Reduced Motion Support */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .navbar .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-toggle {
+        display: block;
+        position: absolute;
+        right: 15px;
+        top: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        display: none;
+        margin-top: 1rem;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 0.5rem 0;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+      }
+
+      .chat-input {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .chat-input input,
+      .chat-input button {
+        width: 100%;
+      }
+
+      .buddy-search-form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .form-group {
+        width: 100%;
+      }
+
+      .buddy-search-form input,
+      .buddy-search-form select {
+        max-width: none;
+        width: 100%;
+      }
+
+      .buddy-search-form .btn {
+        width: 100%;
+      }
+
+      .buddy-list {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .footer-section {
+        margin: 20px 0;
+        text-align: center;
+        min-width: auto;
+        width: 100%;
+      }
+
+      #popupChatbot {
+        width: calc(100% - 40px);
+        right: 20px;
+        bottom: 80px;
+      }
+
+      .chatbot-icon {
+        bottom: 20px;
+        right: 20px;
+      }
+
+      .theme-toggle {
+        bottom: 90px;
+        right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader"></div>
+    <div class="warrior-quote">"Your Yatra begins with struggle..."</div>
+  </div>
+
+  <!-- Background Flute -->
+  <audio id="warriorSound" preload="auto">
+    <source src="flute.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <a href="index.html">
+          <img src="https://vicky-tec.github.io/TRAVALLY/TRAVALLY.png" alt="Travally Logo">
+          <span>TRAVALLY</span>
+        </a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="bot.html">YuktiBot</a></li>
+        <li><a href="COMING SOON.html">YatraMitra</a></li>
+        <li><a href="finder.html">HumSafar</a></li>
+        <li><a href="About us.html">About Us</a></li>
+        <li><a href="LOGINpage/loginpage.html">Profile</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header id="home" class="hero">
+    <div class="video-slideshow" id="videoSlideshow">
+      <video class="active" autoplay muted loop src="video1.mp4"></video>
+      <video src="video2.mp4" muted loop></video>
+    </div>
+    <div class="hero-content">
+      <h1>Welcome to Travally</h1>
+      <p>Discover your place with YuktiBot and find your adventure buddy!</p>
+      <button class="cta-button" onclick="document.getElementById('buddy').scrollIntoView({ behavior: 'smooth' });">Start Exploring</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Buddy Finder -->
+    <section id="buddy" class="buddy-finder content-section">
+      <div class="container">
+        <h2>Find a Travel Buddy</h2>
+        <form id="buddySearch" class="buddy-search-form">
+          <div class="form-group">
+            <label for="interest">Interest:</label>
+            <select id="interest" name="interest">
+              <option value="Tour">Tour</option>
+              <option value="foodWalk">Food Walk</option>
+              <option value="studyBuddy">Study Buddy</option>
+              <option value="sports">Sports Facilities</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="time">Time:</label>
+            <input type="time" id="time" name="time" />
+          </div>
+          <button type="button" class="btn" onclick="window.location.href='finder.html'">Find Buddies</button>
+        </form>
+
+        <h3>Active Groups Nearby</h3>
+        <div class="buddy-list">
+          <div class="buddy-card">
+            <h4><i class="fas fa-camera-retro"></i> Tour Group</h4>
+            <p><i class="fas fa-map-marker-alt"></i> Meeting at Main Gate, 09:00 PM</p>
+            <p><i class="fas fa-users"></i> Participants: 1/5</p>
+            <button class="btn-secondary" onclick="window.location.href='finder.html'">Join</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-section about">
+        <h3>About TRAVALLY</h3>
+        <p>TRAVALLY is your ultimate companion for discovering new places and connecting with fellow explorers. From AI-powered guidance to finding your perfect travel buddy, we're here to make your journey unforgettable.</p>
+      </div>
+      <div class="footer-section links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="bot.html">YuktiBot</a></li>
+          <li><a href="COMING SOON.html">YatraMitra</a></li>
+          <li><a href="finder.html">HumSafar</a></li>
+          <li><a href="About us.html">About Us</a></li>
+          <li><a href="LOGINpage/loginpage.html">Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact">
+        <h3>Contact Us</h3>
+        <p><i class="fas fa-envelope"></i> info@travally.com</p>
+        <p><i class="fas fa-phone"></i> +91 8579924554</p>
+        <p><i class="fas fa-map-marker-alt"></i> IIT PATNA HOSTEL</p>
+      </div>
+      <div class="footer-section social">
+        <h3>Follow Us</h3>
+        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://github.com/vicky-tec" target="_blank"><i class="fab fa-github"></i></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 TRAVALLY | Designed with devotion ✨
+    </div>
+  </footer>
+
+  <!-- Chatbot Icon -->
+  <div class="chatbot-icon" onclick="toggleChatPopup()">
+    <i class="fas fa-robot"></i>
+  </div>
+
+  <!-- Popup YuktiBot -->
+  <div id="popupChatbot">
+    <div id="popupHeader" onclick="toggleChatPopup()">
+      💬 YuktiBot
+      <button class="close-btn" onclick="event.stopPropagation(); toggleChatPopup()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div id="popupBody" class="chat-interface">
+      <div id="chatWindow" class="chat-window">
+        <div class="message bot">Hello! I'm YuktiBot. Ask me anything about Bihar tourism. 😊</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Ask YuktiBot..." />
+        <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Theme Toggle -->
+  <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+    🌙
+  </button>
+
+  <script src="script.js" defer></script>
+  <script> 
+    // Navbar Toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('active');
+    });
+
+
+    // Chatbot Functionality
+    function toggleChatPopup() {
+      const chatbot = document.getElementById('popupChatbot');
+      chatbot.classList.toggle('active');
+    }
+
+    function sendMessage() {
+      const userInput = document.getElementById('userInput');
+      const chatWindow = document.getElementById('chatWindow');
+      
+      if (userInput.value.trim() === '') return;
+
+      // Add user message
+      const userMessage = document.createElement('div');
+      userMessage.className = 'message user';
+      userMessage.textContent = userInput.value;
+      chatWindow.appendChild(userMessage);
+
+      // Clear input
+      const message = userInput.value;
+      userInput.value = '';
+
+      // Scroll to bottom
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+
+      // Simulate bot response
+      setTimeout(() => {
+        const botMessage = document.createElement('div');
+        botMessage.className = 'message bot';
+        
+        // Simple responses based on keywords
+        if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
+          botMessage.textContent = "Namaste! How can I help you with your Bihar travel plans today?";
+        } else if (message.toLowerCase().includes('place') || message.toLowerCase().includes('visit')) {
+          botMessage.textContent = "Bihar has many amazing places! Some popular ones are:\n- Mahabodhi Temple (Bodh Gaya)\n- Nalanda University Ruins\n- Vikramshila Ruins\n- Patna Sahib Gurudwara\nWhich one interests you?";
+        } else if (message.toLowerCase().includes('food') || message.toLowerCase().includes('eat')) {
+          botMessage.textContent = "Bihar has delicious cuisine! Try:\n- Litti Chokha\n- Sattu Paratha\n- Khaja\n- Thekua\n- Chana Ghugni\nWould you like recommendations for specific restaurants?";
+        } else if (message.toLowerCase().includes('thank')) {
+          botMessage.textContent = "You're welcome! 😊 Let me know if you need any more information about Bihar tourism.";
+        } else {
+          botMessage.textContent = "I'm still learning about Bihar. For now, I can help with:\n- Popular tourist places\n- Local cuisine\n- Travel tips\nWhat would you like to know?";
+        }
+        
+        chatWindow.appendChild(botMessage);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }, 1000);
+    }
+
+    // Allow pressing Enter to send message
+    document.getElementById('userInput').addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  </script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/scrollreveal/4.0.7/scrollreveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
