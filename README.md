@@ -37,4 +37,4 @@
 
 <br clear="both">
 
-<img src="https://raw.githubusercontent.com/vicky-tec/vicky-tec/output/snake.svg" alt="Snake animation" />
+
